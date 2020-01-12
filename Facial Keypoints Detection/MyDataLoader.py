@@ -50,7 +50,7 @@ class train_set(Dataset):
 
 if __name__ == "__main__":
 
-    filename = "./train_data/validate_half_data.csv"
+    filename = "./train_data/validate_complete_data.csv"
     image_dir = "./train_data/image"
     image_shape = (96, 96)
     my_dataset = train_set(filename, image_dir, image_shape)
@@ -61,6 +61,7 @@ if __name__ == "__main__":
     max_iterate = int((train_data_nums + batch_size - 1) / batch_size * epoch_num)  # 总迭代次数
     train_data = train_set(filename=filename, image_dir=image_dir,image_shape=image_shape, repeat=1)
     train_loader = DataLoader(dataset=train_data, batch_size=batch_size, shuffle=False)
+
     for epoch in range(epoch_num):
         for batch_image, batch_label in train_loader:
             image = batch_image[0, :]

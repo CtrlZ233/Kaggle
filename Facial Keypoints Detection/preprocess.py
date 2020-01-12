@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 label_csv_file_path = './train_data/train_label.csv'
 df = pd.read_csv(label_csv_file_path,index_col=0)
-df['id'] = range(len(df))
 
 df.dropna(how='any', inplace=True)
 df.to_csv('./train_data/complete_data.csv')
