@@ -2,10 +2,10 @@ import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
 import pandas as pd
-image_path = './train_data/image/image_3.bmp'
+image_path = './train_data/image/image_0.bmp'
 df = pd.read_csv('./train_data/train_label.csv')
 # print(df.iloc[0])
-indexs = np.array(df.iloc[3])
+indexs = np.array(df.iloc[0])
 indexs = indexs[1:]
 indexs = indexs.reshape(15,2)
 raw_image = Image.open(image_path)

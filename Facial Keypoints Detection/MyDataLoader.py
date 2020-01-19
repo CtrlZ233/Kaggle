@@ -67,3 +67,4 @@ if __name__ == "__main__":
             image = batch_image[0, :]
             image = image.numpy()  # image=np.array(image)
             print("batch_image.shape:{},batch_label:{}".format(batch_image.shape, batch_label.shape))
+
