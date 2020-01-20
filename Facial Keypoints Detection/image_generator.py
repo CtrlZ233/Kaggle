@@ -10,3 +10,4 @@ for i, image_value in enumerate(image_values):
     image = Image.fromarray(np.uint8(image_array))
     image.save("./train_data/image/image_"+ str(i) + ".bmp")
 df.iloc[:, :-1].to_csv("train_data/train_label.csv")
+
