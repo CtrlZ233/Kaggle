@@ -71,22 +71,27 @@ class Level2_unit(nn.Module):
     def __init__(self):
         super(Level2_unit, self).__init__()
         self.CNN1 = nn.Sequential(nn.Conv2d(in_channels=1,
-                                            kernel_size=3, out_channels=10,stride=1,padding=0),
+                                            kernel_size=3, out_channels=16,stride=1,padding=0),
                                   nn.ReLU(),
                                   nn.MaxPool2d(2,2))
-        self.CNN2 = nn.Sequential(nn.Conv2d(in_channels=10,
-                                            kernel_size=3, out_channels=10,stride=1,padding=0),
+        self.CNN2 = nn.Sequential(nn.Conv2d(in_channels=16,
+                                            kernel_size=3, out_channels=32,stride=1,padding=0),
+                                  nn.ReLU())
+        self.CNN3 = nn.Sequential(nn.Conv2d(in_channels=32,
+                                            kernel_size=3, out_channels=32, stride=1, padding=0),
                                   nn.ReLU())
         self.FC = nn.Sequential(
-            nn.Linear(250, 2),
-            nn.ReLU()
+            nn.Linear(3872, 2),
+            nn.Sigmoid()
         )
     def forward(self, x):
         x = self.CNN1(x)
         x = self.CNN2(x)
+        x = self.CNN3(x)
         x = x.view(x.shape[0], -1)
         # print(x.shape)
         x = self.FC(x)
+        x = 8*x
         return x
 class Level2_Net(nn.Module):
     def __init__(self):
@@ -99,29 +104,21 @@ class Level2_Net(nn.Module):
     def forward(self, x):
         predictions =[]
         for i, net_unit in enumerate(self.net_list):
-            prediction = net_unit.forward(x[:,i].view(x.shape[0], 1, 16, 16))
+            prediction = net_unit.forward(x[:,i].view(x.shape[0], 1, 32, 32))
             predictions.append(prediction)
             # print(prediction)
         predictions = tuple(predictions)
         predictions = torch.cat(predictions, 1)
         return predictions
 
-# net = Level2_Net()
-# data = torch.randn(1, 15, 16, 16)
-# data2 = torch.randn(1, 15, 16, 16)
-# pred = torch.randn(1,30)
-#
-# prediction = net.forward(data)
-#
-# prediction2 = net.forward(data)
+net = Level2_Net()
+data = torch.randn(1, 15, 32, 32)
+pred = torch.randn(1,30)
+
+prediction = net.forward(data)
+
+prediction2 = net.forward(data)
 
 #
 # # print(prediction-prediction2)
 # print(net)
-
-
-
-
-
-
-

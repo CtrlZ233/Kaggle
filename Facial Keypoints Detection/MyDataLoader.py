@@ -61,10 +61,12 @@ if __name__ == "__main__":
     max_iterate = int((train_data_nums + batch_size - 1) / batch_size * epoch_num)  # 总迭代次数
     train_data = train_set(filename=filename, image_dir=image_dir,image_shape=image_shape, repeat=1)
     train_loader = DataLoader(dataset=train_data, batch_size=batch_size, shuffle=False)
-
+    trans_image = torch.randn(batch_size, 98, 98)
     for epoch in range(epoch_num):
         for batch_image, batch_label in train_loader:
-            image = batch_image[0, :]
-            image = image.numpy()  # image=np.array(image)
-            print("batch_image.shape:{},batch_label:{}".format(batch_image.shape, batch_label.shape))
+            for i in range(batch_size):
+                trans_image[i, :, :] = torch.from_numpy(np.pad(batch_image[i, :, :].numpy(),
+                                                               ((1,1),(1,1)), 'constant', constant_values=0))
+
+            print("batch_image.shape:{},batch_label:{}".format(trans_image.shape, batch_label.shape))
 
